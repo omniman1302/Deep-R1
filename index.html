@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NEET PG 2026 Seat Allotment Explorer</title>
+  <meta name="description" content="Browse, filter and sort MCC NEET PG 2026 seat allotment data, round by round.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🩺</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap header-bar">
+      <a class="brand" href="./">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 21s-7-4.35-7-10a4 4 0 0 1 7-2.65A4 4 0 0 1 19 11c0 5.65-7 10-7 10Z"/>
+            <path d="M8 11h2l1.2-2.4 1.6 4.8L14 11h2"/>
+          </svg>
+        </span>
+        <span class="brand-text">
+          <strong>NEET PG 2026</strong>
+          <small>Allotment Explorer</small>
+        </span>
+      </a>
+
+      <div class="header-tools">
+        <a class="ghost-btn" href="#sources">Data sources</a>
+        <button class="icon-btn" id="theme-toggle" type="button" aria-label="Toggle dark mode" title="Toggle dark mode">
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+            <circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>
+          </svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a6.5 6.5 0 0 0 9.8 9.8Z"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="wrap hero">
+      <h1>Every seat. Every round. <span class="accent">Filter it your way.</span></h1>
+      <p class="lede">
+        The complete MCC All India counselling allotment list for NEET PG 2026 —
+        searchable by institute, course, quota, category, state, rank and score.
+        New rounds get added here as soon as MCC publishes them.
+      </p>
+      <div class="hero-chips" id="hero-chips"></div>
+    </div>
+
+    <div class="wrap">
+      <div class="round-bar">
+        <span class="round-bar-label">Round</span>
+        <nav class="round-tabs" id="round-tabs" role="tablist" aria-label="Allotment round"></nav>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="filter-card" aria-label="Filters">
+      <div class="filter-grid">
+        <div class="field" id="field-quota"></div>
+        <div class="field" id="field-course"></div>
+        <div class="field" id="field-allotted"></div>
+        <div class="field" id="field-candidate"></div>
+        <div class="field" id="field-state"></div>
+
+        <div class="field field-wide">
+          <label for="institute-input">Allotted Institute</label>
+          <div class="autocomplete" id="institute-autocomplete">
+            <input type="text" id="institute-input" placeholder="Search institute name…" autocomplete="off" spellcheck="false">
+            <button type="button" class="ac-clear" id="institute-clear" title="Clear institute" aria-label="Clear institute">&times;</button>
+            <div class="ac-list" id="institute-list" role="listbox"></div>
+          </div>
+        </div>
+
+        <div class="field field-num" id="field-rank-min"></div>
+        <div class="field field-num" id="field-rank-max"></div>
+        <div class="field field-num" id="field-score-min"></div>
+        <div class="field field-num" id="field-score-max"></div>
+      </div>
+
+      <div class="filter-footer">
+        <p class="filter-note">
+          Set your filters, then hit <strong>Apply</strong>. Filters stay active while you sort or page through results.
+        </p>
+        <div class="filter-actions">
+          <button class="btn btn-ghost" id="clear-btn" type="button">Clear all</button>
+          <button class="btn btn-primary" id="apply-btn" type="button">Apply filters</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="results-bar">
+      <p class="result-count" id="result-count">Loading…</p>
+      <div class="results-tools">
+        <label class="size-picker">
+          Rows
+          <select id="page-size">
+            <option value="100">100</option>
+            <option value="250">250</option>
+            <option value="500">500</option>
+          </select>
+        </label>
+        <button class="btn btn-ghost" id="export-btn" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 3v12m0 0 4-4m-4 4-4-4M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/>
+          </svg>
+          Export CSV
+        </button>
+      </div>
+    </section>
+
+    <section class="table-card">
+      <div class="table-scroll">
+        <table id="data-table">
+          <thead id="table-head"></thead>
+          <tbody id="table-body">
+            <tr><td class="state-cell" colspan="9">Loading allotment data…</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="table-foot">
+        <div class="page-info" id="page-info"></div>
+        <div class="pager">
+          <button class="btn btn-page" id="first-btn" type="button" title="First page">«</button>
+          <button class="btn btn-page" id="prev-btn" type="button">Previous</button>
+          <label class="jump">
+            Go to
+            <input type="number" id="jump-input" min="1" value="1" inputmode="numeric">
+          </label>
+          <button class="btn btn-page" id="next-btn" type="button">Next</button>
+          <button class="btn btn-page" id="last-btn" type="button" title="Last page">»</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="notes" id="sources">
+      <h2>About this data</h2>
+      <div class="notes-grid">
+        <div class="note-card">
+          <h3>Allotment source</h3>
+          <p id="source-links">—</p>
+          <p class="muted" id="source-meta"></p>
+        </div>
+        <div class="note-card">
+          <h3>Rank → score</h3>
+          <p id="score-source">—</p>
+          <p class="muted">Scores are mapped from the official NBE result data for the same rank.</p>
+        </div>
+        <div class="note-card">
+          <h3>Disclaimer</h3>
+          <p class="muted">
+            Unofficial viewer, built for convenience. Always verify against the official MCC
+            allotment PDF before acting on a seat. Data is reproduced as published; nothing is edited.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-foot">
+    <div class="wrap foot-inner">
+      <p>Built with AI · <a href="https://opencode.ai/" target="_blank" rel="noopener">OpenCode</a></p>
+      <p class="muted">Not affiliated with MCC, MoHFW or NBE.</p>
+    </div>
+  </footer>
+
+  <script src="data/manifest.js"></script>
+  <script src="data/scores.js"></script>
+  <script src="assets/app.js"></script>
+</body>
+</html>
