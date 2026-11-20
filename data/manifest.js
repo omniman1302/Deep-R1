@@ -24,7 +24,12 @@ window.NEETPG_MANIFEST = {
         "https://cdnbbsr.s3waas.gov.in/s3e0f7a4d0ef9b84b83b693bbf3feb8e6e/uploads/2026/10/202610231277301968.pdf",
     },
     // Placeholders: flip available to true (and add the file) when MCC publishes.
-    { id: "round-2", label: "Round 2", available: false },
+    {
+      id: "round-2",
+      label: "Round 2",
+      file: "data/round-2.js",
+      released: "2026-11-20",
+    },
     { id: "round-3", label: "Round 3", available: false },
     { id: "round-4", label: "Round 4", available: false },
     { id: "stray", label: "Stray Round", available: false },
